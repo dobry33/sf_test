@@ -1,0 +1,33 @@
+---
+# tasks file for vsftpd
+- name: install vsftpd
+  apt:
+    name: vsftpd
+    update_cache: yes
+    state: present
+
+- name: edit anonymous enabled
+  lineinfile:
+    path: /etc/vsftpd.conf
+    regexp: 'anonymous_enable='
+    insertafter: '#anonymous_enable='
+    line: anonymous_enable=NO
+
+- name: edit local enabled
+  lineinfile:
+    path: /etc/vsftpd.conf
+    regexp: 'local_enable='
+    insertafter: '#local_enable='
+    line: local_enable=YES
+
+- name: edit write enabled
+  lineinfile:
+    path: /etc/vsftpd.conf
+    regexp: 'write_enable='
+    insertafter: '#write_enable='
+    line: write_enable=YES
+
+- name: start vsftpd
+  service:
+    name: vsftpd
+    state: started
